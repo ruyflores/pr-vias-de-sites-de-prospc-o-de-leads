@@ -1,0 +1,686 @@
+<title>Studio Aurora</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: editorial assimétrico, alinhado à esquerda; imagens verticais altas; um fio de cabelo que se desenha no hero. */
+:root {
+  --porcelain: #F4EEF1;
+  --aubergine: #2B1724;
+  --berry: #A3365E;
+  --berry-deep: #862A4C;
+  --champagne: #C8A26B;
+  --mauve: #6D5664;
+  --blush: #E9D9E0;
+  --blush-deep: #D7BFCA;
+  --white: #FFFFFF;
+  --on-dark-muted: #D9C8D1;
+  --wa-green: #1F7A5C;
+  --wa-bg: #EFE7DE;
+  --wa-bubble: #D9FDD3;
+  --wa-text: #1B1B1B;
+
+  --font-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --font-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-md: 1.2rem;
+  --fs-lg: 1.563rem;
+  --fs-xl: clamp(1.9rem, 4vw, 2.441rem);
+  --fs-hero: clamp(2.6rem, 6.4vw, 5.6rem);
+
+  --space-section: clamp(4rem, 9vw, 7.5rem);
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--porcelain);
+  color: var(--aubergine);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; z-index: 10;
+  height: env(safe-area-inset-top, 0px); background: var(--porcelain);
+}
+a { color: inherit; }
+figure { margin: 0; }
+h1, h2, h3 { text-wrap: balance; }
+
+.wrap {
+  width: 100%; max-width: calc(1180px + 4rem); margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (min-width: 720px) {
+  .wrap {
+    padding-left: max(2rem, env(safe-area-inset-left, 0px));
+    padding-right: max(2rem, env(safe-area-inset-right, 0px));
+  }
+}
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:focus-visible { outline: 2px solid var(--berry); outline-offset: 3px; }
+
+/* faixa de demonstração */
+.demo-band { background: var(--aubergine); color: var(--on-dark-muted); font-size: .8rem; }
+.demo-band .wrap { display: flex; flex-wrap: wrap; gap: .25rem 1rem; justify-content: space-between; padding-block: .5rem; }
+.demo-band strong { color: var(--porcelain); font-weight: 600; }
+
+/* tipografia */
+.h2 { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-xl); line-height: 1.1; letter-spacing: -0.01em; margin: 0 0 1.25rem; max-width: 18ch; }
+.h3 { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-lg); margin: 1.5rem 0 .75rem; }
+.lead { font-size: var(--fs-md); color: var(--mauve); max-width: 46ch; margin: 0 0 1.5rem; }
+
+/* botões */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 48px; padding: 0 1.6rem; border: 0; cursor: pointer;
+  background: var(--berry); color: var(--white); border-radius: 999px;
+  font: 600 var(--fs-base) var(--font-body); text-decoration: none;
+  transition: background-color .2s var(--ease-out), transform .2s var(--ease-out);
+}
+.btn:hover { background: var(--berry-deep); }
+.btn:active { transform: scale(.97); }
+.btn-small { min-height: 44px; padding: 0 1.2rem; font-size: var(--fs-sm); }
+.btn-ghost { background: transparent; color: var(--aubergine); box-shadow: inset 0 0 0 1.5px var(--aubergine); }
+.btn-ghost:hover { background: var(--aubergine); color: var(--porcelain); }
+.btn-light { background: var(--porcelain); color: var(--aubergine); }
+.btn-light:hover { background: var(--white); }
+
+/* header */
+.site-header {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+  background: color-mix(in srgb, var(--porcelain) 90%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  transition: box-shadow .3s var(--ease-out);
+}
+.site-header.is-scrolled { box-shadow: 0 1px 0 var(--blush-deep); }
+.header-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 68px; }
+.brand { display: flex; align-items: baseline; gap: .55rem; text-decoration: none; }
+.brand-mark { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 1.7rem; color: var(--berry); line-height: 1; }
+.brand-name { font-weight: 600; font-size: var(--fs-sm); }
+.nav { display: none; gap: 2rem; font-size: var(--fs-sm); }
+.nav a { text-decoration: none; color: var(--mauve); transition: color .2s; }
+.nav a:hover { color: var(--aubergine); }
+@media (min-width: 900px) { .nav { display: flex; } }
+
+/* "fotos": composições de fios em CSS/SVG no lugar das fotos reais */
+.ph {
+  position: relative; overflow: hidden; border-radius: 2px; max-width: 100%;
+  background-color: var(--blush-deep);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23ffffff' stroke-linecap='round'%3E%3Cpath d='M40 -10 C 120 120, 20 260, 140 380 S 200 520, 160 520' stroke-opacity='.55' stroke-width='3'/%3E%3Cpath d='M90 -10 C 170 130, 70 270, 190 390 S 250 520, 210 520' stroke-opacity='.4' stroke-width='2'/%3E%3Cpath d='M140 -10 C 220 140, 120 280, 240 400 S 300 520, 260 520' stroke-opacity='.5' stroke-width='3'/%3E%3Cpath d='M190 -10 C 270 150, 170 290, 290 410 S 350 520, 310 520' stroke-opacity='.3' stroke-width='2'/%3E%3Cpath d='M240 -10 C 320 160, 220 300, 340 420 S 400 520, 360 520' stroke-opacity='.45' stroke-width='3'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(110% 70% at 25% 15%, rgba(255,255,255,.55) 0%, transparent 60%),
+    linear-gradient(160deg, var(--blush), #b57b95 120%);
+  background-size: 100% 100%;
+}
+.ph-tag {
+  position: absolute; left: .75rem; bottom: .75rem;
+  font-size: .72rem; color: var(--mauve); background: rgba(255,255,255,.78);
+  padding: .25rem .55rem; border-radius: 4px;
+}
+.ph-tall { aspect-ratio: 3 / 4.4; }
+.ph-small { aspect-ratio: 3 / 4; background-color: var(--berry); background-image:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 400' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23F4EEF1' stroke-linecap='round'%3E%3Cpath d='M-10 80 C 80 40, 160 160, 310 90' stroke-opacity='.5' stroke-width='3'/%3E%3Cpath d='M-10 140 C 90 100, 170 220, 310 150' stroke-opacity='.35' stroke-width='2'/%3E%3Cpath d='M-10 200 C 100 160, 180 280, 310 210' stroke-opacity='.5' stroke-width='3'/%3E%3Cpath d='M-10 260 C 110 220, 190 340, 310 270' stroke-opacity='.3' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E"),
+  linear-gradient(150deg, #c25a82, var(--aubergine) 130%); }
+.ph-wide { aspect-ratio: 16 / 10; }
+.ph-square { aspect-ratio: 1; }
+
+/* hero */
+.hero { padding-block: clamp(2.5rem, 6vw, 5rem) var(--space-section); }
+.hero-grid { display: grid; gap: 3rem; align-items: center; }
+@media (min-width: 900px) { .hero-grid { grid-template-columns: 1.15fr 1fr; } }
+.hero-copy { min-width: 0; }
+.hero-place { color: var(--mauve); font-size: var(--fs-sm); margin: 0 0 1rem; }
+.hero-title { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-hero); line-height: 1.02; letter-spacing: -0.02em; margin: 0; }
+.hero-title .line { display: block; overflow: hidden; padding-bottom: .06em; }
+.hero-title .line > span { display: inline-block; }
+.strand { display: block; width: min(100%, 560px); height: auto; margin: .5rem 0 1.25rem; overflow: visible; }
+.strand path { fill: none; stroke: var(--berry); stroke-width: 2.2; stroke-linecap: round; }
+.hero-sub { font-size: var(--fs-md); color: var(--mauve); max-width: 40ch; margin: 0 0 2rem; }
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
+.rating-chip { display: inline-flex; align-items: center; gap: .6rem; font-size: var(--fs-sm); text-decoration: none; }
+.stars { color: var(--champagne); letter-spacing: .1em; }
+.hero-media { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1rem; align-items: end; }
+.hero-media .ph-small { margin-bottom: 3rem; }
+
+/* seções */
+.section { padding-block: var(--space-section); }
+.section-tint { background: var(--blush); }
+.section-dark { background: var(--aubergine); color: var(--porcelain); }
+
+/* serviços */
+.services { display: grid; gap: 3rem; }
+@media (min-width: 900px) { .services { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+.service-col { min-width: 0; }
+.service-list { list-style: none; padding: 0; margin: 0; }
+.service-list li { display: flex; align-items: baseline; gap: .75rem; padding: .85rem 0; border-bottom: 1px solid var(--blush-deep); }
+.service-list .fill { flex: 1; }
+.service-list .price { color: var(--mauve); font-size: var(--fs-sm); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* antes e depois */
+.ad-grid { display: grid; gap: 2.5rem; align-items: center; }
+@media (min-width: 900px) { .ad-grid { grid-template-columns: 1fr 1.6fr; } }
+.compare { position: relative; aspect-ratio: 4 / 3; max-width: 100%; overflow: hidden; border-radius: 2px; touch-action: pan-y; }
+.compare-img { position: absolute; inset: 0; }
+.compare-after {
+  background-color: #b4708f;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23ffffff' stroke-linecap='round'%3E%3Cpath d='M60 -10 C 90 80, 60 180, 110 310' stroke-opacity='.6' stroke-width='3'/%3E%3Cpath d='M110 -10 C 140 80, 110 180, 160 310' stroke-opacity='.45' stroke-width='3'/%3E%3Cpath d='M160 -10 C 190 80, 160 180, 210 310' stroke-opacity='.6' stroke-width='3'/%3E%3Cpath d='M210 -10 C 240 80, 210 180, 260 310' stroke-opacity='.45' stroke-width='3'/%3E%3Cpath d='M260 -10 C 290 80, 260 180, 310 310' stroke-opacity='.6' stroke-width='3'/%3E%3Cpath d='M310 -10 C 340 80, 310 180, 360 310' stroke-opacity='.45' stroke-width='3'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(60% 50% at 40% 30%, rgba(255,255,255,.5), transparent 70%),
+    linear-gradient(160deg, #e7cfd9, #9c4d70);
+  background-size: 100% 100%;
+}
+.compare-before {
+  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+  background-color: #a99c9c;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.35' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M60 -10 q 20 20 -10 40 t 15 40 t -20 40 t 25 40 t -15 40 t 20 40 t -10 40'/%3E%3Cpath d='M120 -10 q -25 20 10 40 t -20 40 t 25 40 t -15 40 t 20 40 t -25 40 t 10 40'/%3E%3Cpath d='M180 -10 q 20 20 -15 40 t 25 40 t -20 40 t 15 40 t -25 40 t 20 40 t -10 40'/%3E%3Cpath d='M240 -10 q -20 20 15 40 t -25 40 t 20 40 t -15 40 t 25 40 t -20 40 t 10 40'/%3E%3Cpath d='M300 -10 q 25 20 -10 40 t 20 40 t -25 40 t 15 40 t -20 40 t 25 40 t -10 40'/%3E%3Cpath d='M350 -10 q -20 20 15 40 t -20 40 t 25 40 t -15 40 t 20 40 t -25 40 t 10 40'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(160deg, #ddd5d3, #8f8383);
+  background-size: 100% 100%;
+}
+.compare-after .ph-tag { left: auto; right: .75rem; }
+.compare-handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; background: var(--white); transform: translateX(-1px); pointer-events: none; }
+.compare-handle::after {
+  content: "‹ ›"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--white); color: var(--berry); font-weight: 700; box-shadow: 0 6px 20px rgba(43, 23, 36, .25);
+}
+.compare-range { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+.compare:focus-within { outline: 2px solid var(--berry); outline-offset: 4px; }
+
+/* sobre */
+.about-grid { display: grid; gap: 3rem; align-items: center; }
+@media (min-width: 900px) { .about-grid { grid-template-columns: 1fr 1.2fr; gap: 5rem; } }
+.about-grid > div { min-width: 0; }
+.facts { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+.facts li { padding-left: 1.25rem; border-left: 2px solid var(--berry); max-width: 52ch; }
+
+/* avaliações */
+.reviews-grid { display: grid; gap: 3rem; align-items: center; }
+@media (min-width: 900px) { .reviews-grid { grid-template-columns: 1fr 1.8fr; gap: 5rem; } }
+.reviews-grid > * { min-width: 0; }
+.score-num { font-family: var(--font-display); font-weight: 500; font-size: clamp(5rem, 14vw, 9rem); line-height: .9; margin: 0; }
+.score-stars { color: var(--champagne); font-size: 1.5rem; letter-spacing: .15em; margin: .5rem 0; }
+.score-label { color: var(--on-dark-muted); margin: 0; }
+.carousel-track { display: grid; }
+.quote {
+  grid-area: 1 / 1; margin: 0;
+  opacity: 0; visibility: hidden; transform: translateY(12px);
+  transition: opacity .5s var(--ease-out), transform .5s var(--ease-out), visibility 0s .5s;
+}
+.quote.is-active { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.quote p { font-family: var(--font-display); font-style: italic; font-size: clamp(1.35rem, 2.6vw, 2rem); line-height: 1.35; margin: 0 0 1.25rem; max-width: 34ch; }
+.quote footer { font-weight: 600; }
+.quote footer span { font-weight: 400; color: var(--on-dark-muted); }
+.carousel-controls { display: flex; align-items: center; gap: .75rem; margin-top: 1.5rem; }
+.carousel-count { min-width: 3.5rem; text-align: center; font-size: var(--fs-sm); color: var(--on-dark-muted); font-variant-numeric: tabular-nums; }
+.icon-btn {
+  width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+  background: transparent; color: var(--porcelain); border: 1.5px solid rgba(244, 238, 241, .4);
+  transition: border-color .2s, background-color .2s;
+}
+.icon-btn:hover { border-color: var(--porcelain); background: rgba(244, 238, 241, .08); }
+.icon-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.reviews-note { color: var(--on-dark-muted); font-size: .8rem; margin-top: 1.5rem; }
+
+/* localização */
+.where-grid { display: grid; gap: 3rem; }
+@media (min-width: 900px) { .where-grid { grid-template-columns: 1.3fr 1fr; gap: 4rem; align-items: start; } }
+.where-grid > * { min-width: 0; }
+.map { position: relative; aspect-ratio: 4 / 3.4; max-width: 100%; overflow: hidden; border-radius: 2px; background: #EAE3E6; }
+.map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.map-pin {
+  position: absolute; left: 54%; top: 46%; transform: translate(-50%, -100%);
+  display: grid; justify-items: center; gap: .35rem; pointer-events: none;
+}
+.map-pin-dot { width: 34px; height: 34px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--berry); box-shadow: 0 6px 16px rgba(43,23,36,.3); display: grid; place-items: center; }
+.map-pin-dot::after { content: ""; width: 12px; height: 12px; border-radius: 50%; background: var(--porcelain); }
+.map-pin-label { background: var(--white); color: var(--aubergine); font-size: .78rem; font-weight: 600; padding: .3rem .6rem; border-radius: 4px; box-shadow: 0 4px 12px rgba(43,23,36,.15); white-space: nowrap; order: -1; }
+.pulse { position: absolute; left: 54%; top: 46%; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: var(--berry); opacity: .35; animation: pulse 2.4s var(--ease-out) infinite; }
+@keyframes pulse { from { transform: scale(.6); opacity: .45; } to { transform: scale(4); opacity: 0; } }
+.address { font-style: normal; font-size: var(--fs-md); margin-bottom: 1.5rem; }
+.where-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-bottom: 2rem; }
+.hours { width: 100%; max-width: 380px; border-collapse: collapse; }
+.hours th, .hours td { text-align: left; padding: .55rem 0; border-bottom: 1px solid var(--blush-deep); font-weight: 400; }
+.hours td { text-align: right; color: var(--mauve); font-variant-numeric: tabular-nums; }
+.hours tr.is-today th, .hours tr.is-today td { color: var(--berry); font-weight: 700; }
+.open-now { font-size: var(--fs-sm); color: var(--mauve); margin-top: .75rem; }
+.open-now strong { color: var(--berry); }
+
+/* CTA final */
+.cta-final {
+  color: var(--porcelain); padding-block: calc(var(--space-section) * 1.2);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23C25A82' stroke-linecap='round'%3E%3Cpath d='M600 420 C 700 300, 650 200, 820 120 S 1100 60, 1220 -20' stroke-opacity='.45' stroke-width='3'/%3E%3Cpath d='M680 420 C 780 300, 730 200, 900 120 S 1180 60, 1300 -20' stroke-opacity='.3' stroke-width='2'/%3E%3Cpath d='M760 420 C 860 300, 810 200, 980 120 S 1260 60, 1380 -20' stroke-opacity='.4' stroke-width='3'/%3E%3C/g%3E%3C/svg%3E") center / cover no-repeat,
+    radial-gradient(80% 120% at 85% 50%, #5a2c47 0%, var(--aubergine) 70%);
+}
+.cta-inner { display: grid; gap: 2rem; justify-items: start; }
+.cta-inner .h2 { font-size: clamp(2.1rem, 5vw, 3.8rem); max-width: 16ch; margin: 0; }
+
+/* rodapé */
+.site-footer { background: var(--aubergine); color: var(--on-dark-muted); padding-block: 2.5rem calc(6rem + env(safe-area-inset-bottom, 0px)); border-top: 1px solid rgba(244,238,241,.1); }
+.footer-row { display: grid; gap: .5rem; font-size: var(--fs-sm); }
+.footer-row p { margin: 0; }
+
+/* botão flutuante */
+.wa-float {
+  position: fixed; z-index: 60;
+  right: calc(1rem + env(safe-area-inset-right, 0px));
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  width: 56px; height: 56px; border-radius: 50%; border: 0; cursor: pointer;
+  display: grid; place-items: center; background: var(--berry); color: var(--white);
+  box-shadow: 0 10px 30px rgba(43, 23, 36, .3); transition: transform .25s var(--ease-out);
+}
+.wa-float:hover { transform: scale(1.06); }
+.wa-float svg { width: 28px; height: 28px; fill: currentColor; }
+
+/* simulação do WhatsApp */
+.sim {
+  position: fixed; inset: 0; z-index: 100; display: grid; place-items: center;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  background: rgba(43, 23, 36, .55);
+}
+.sim-card { width: min(380px, 100%); border-radius: 18px; overflow: hidden; background: var(--wa-bg); box-shadow: 0 30px 80px rgba(0,0,0,.35); }
+.sim-top { display: flex; align-items: center; gap: .75rem; padding: .85rem 1rem; background: var(--wa-green); color: var(--white); }
+.sim-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--berry); display: grid; place-items: center; font-family: var(--font-display); font-style: italic; font-weight: 600; }
+.sim-top strong { display: block; font-size: .95rem; }
+.sim-top span { font-size: .75rem; opacity: .85; }
+.sim-close { margin-left: auto; width: 44px; height: 44px; border-radius: 50%; border: 0; background: transparent; color: var(--white); font-size: 1.4rem; cursor: pointer; }
+.sim-chat { min-height: 220px; padding: 1.25rem 1rem; display: grid; align-content: end; gap: .5rem; }
+.bubble { max-width: 85%; padding: .55rem .75rem; border-radius: 10px; font-size: .92rem; line-height: 1.4; color: var(--wa-text); box-shadow: 0 1px 1px rgba(0,0,0,.08); }
+.bubble.me { justify-self: end; background: var(--wa-bubble); border-top-right-radius: 2px; }
+.bubble.them { justify-self: start; background: var(--white); border-top-left-radius: 2px; }
+.bubble time { display: block; text-align: right; font-size: .68rem; color: #667; margin-top: .2rem; }
+.typing { justify-self: start; background: var(--white); border-radius: 10px; padding: .6rem .8rem; display: flex; gap: 4px; }
+.typing i { width: 6px; height: 6px; border-radius: 50%; background: #999; animation: blink 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes blink { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
+.sim-input { display: flex; gap: .5rem; padding: .6rem .75rem; background: #F0F0F0; align-items: center; }
+.sim-input p { flex: 1; margin: 0; background: var(--white); border-radius: 20px; padding: .55rem .9rem; font-size: .88rem; color: var(--wa-text); min-height: 2.4rem; }
+.sim-send { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--wa-green); color: var(--white); cursor: pointer; display: grid; place-items: center; }
+.sim-send svg { width: 20px; height: 20px; fill: currentColor; }
+.sim-note { margin: 0; padding: .8rem 1rem 1rem; background: var(--porcelain); color: var(--mauve); font-size: .8rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}
+</style>
+
+<div class="demo-band">
+  <div class="wrap">
+    <span><strong>Modelo de demonstração.</strong> Studio Aurora é um salão fictício.</span>
+    <span>Teste no celular como se fosse uma cliente.</span>
+  </div>
+</div>
+
+<header class="site-header" data-header>
+  <div class="wrap header-row">
+    <a class="brand" href="#topo" aria-label="Studio Aurora, início">
+      <span class="brand-mark">Aurora</span>
+      <span class="brand-name">Hair &amp; Make</span>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#servicos">Serviços</a>
+      <a href="#antes-depois">Antes e depois</a>
+      <a href="#avaliacoes">Avaliações</a>
+      <a href="#onde">Onde estamos</a>
+    </nav>
+    <button class="btn btn-small" type="button" data-book>Agendar</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="topo">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="hero-place">Centro, Cidade Exemplo</p>
+        <h1 class="hero-title">
+          <span class="line"><span>Cabelo que</span></span>
+          <span class="line"><span>acompanha</span></span>
+          <span class="line"><span>o seu movimento.</span></span>
+        </h1>
+        <svg class="strand" viewBox="0 0 640 90" aria-hidden="true" focusable="false">
+          <path d="M2 60 C 90 10, 160 88, 250 46 S 400 6, 470 48 S 590 82, 638 22" />
+        </svg>
+        <p class="hero-sub">Corte, coloração, mega hair e maquiagem num studio conduzido por mulheres, com hora marcada e tempo para você.</p>
+        <div class="hero-actions">
+          <button class="btn" type="button" data-book>Agendar pelo WhatsApp</button>
+          <a class="rating-chip" href="#avaliacoes">
+            <span class="stars" aria-hidden="true">★★★★★</span>
+            <span><strong>5,0</strong> em 180 avaliações no Google</span>
+          </a>
+        </div>
+      </div>
+      <div class="hero-media" aria-hidden="true">
+        <figure class="ph ph-tall"><span class="ph-tag">Foto do salão aqui</span></figure>
+        <figure class="ph ph-small"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="servicos" aria-labelledby="servicos-t">
+    <div class="wrap">
+      <h2 class="h2" id="servicos-t" data-reveal>Serviços</h2>
+      <div class="services">
+        <article class="service-col" data-reveal>
+          <figure class="ph ph-wide" aria-hidden="true"><span class="ph-tag">Foto de coloração</span></figure>
+          <h3 class="h3">Cabelo</h3>
+          <ul class="service-list">
+            <li><span>Corte feminino</span><span class="fill"></span><span class="price">a partir de R$ 90</span></li>
+            <li><span>Coloração e retoque de raiz</span><span class="fill"></span><span class="price">a partir de R$ 160</span></li>
+            <li><span>Morena iluminada e mechas</span><span class="fill"></span><span class="price">a partir de R$ 380</span></li>
+            <li><span>Mega hair</span><span class="fill"></span><span class="price">sob consulta</span></li>
+            <li><span>Hidratação e escova</span><span class="fill"></span><span class="price">a partir de R$ 110</span></li>
+            <li><span>Cuidado para cabelos cacheados</span><span class="fill"></span><span class="price">a partir de R$ 130</span></li>
+          </ul>
+        </article>
+        <article class="service-col" data-reveal>
+          <figure class="ph ph-wide" aria-hidden="true"><span class="ph-tag">Foto de maquiagem</span></figure>
+          <h3 class="h3">Maquiagem e eventos</h3>
+          <ul class="service-list">
+            <li><span>Maquiagem social</span><span class="fill"></span><span class="price">a partir de R$ 150</span></li>
+            <li><span>Noivas e madrinhas</span><span class="fill"></span><span class="price">sob consulta</span></li>
+            <li><span>Penteados</span><span class="fill"></span><span class="price">a partir de R$ 120</span></li>
+            <li><span>Design de sobrancelhas</span><span class="fill"></span><span class="price">a partir de R$ 50</span></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tint" id="antes-depois" aria-labelledby="ad-t">
+    <div class="wrap ad-grid">
+      <div>
+        <h2 class="h2" id="ad-t" data-reveal>Antes e depois</h2>
+        <p class="lead" data-reveal>Arraste a linha para ver a transformação.</p>
+      </div>
+      <div class="compare" data-compare style="--pos: 50%">
+        <figure class="compare-img compare-after" aria-hidden="true"><span class="ph-tag">Depois</span></figure>
+        <figure class="compare-img compare-before" aria-hidden="true"><span class="ph-tag">Antes</span></figure>
+        <span class="compare-handle" aria-hidden="true"></span>
+        <label class="sr-only" for="compare-range">Comparar antes e depois</label>
+        <input id="compare-range" class="compare-range" type="range" min="0" max="100" value="50">
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sobre" aria-labelledby="sobre-t">
+    <div class="wrap about-grid">
+      <figure class="ph ph-square" aria-hidden="true" data-reveal><span class="ph-tag">Foto do espaço</span></figure>
+      <div>
+        <h2 class="h2" id="sobre-t" data-reveal>Um studio pequeno, com tempo para você</h2>
+        <p class="lead" data-reveal>À frente do studio está a Bia, especialista em mega hair e cortes. Ao lado dela, a Carla cuida da cor de clientes que voltam há anos.</p>
+        <ul class="facts">
+          <li data-reveal><strong>Empresa de empreendedoras.</strong> Fundado e conduzido por mulheres.</li>
+          <li data-reveal><strong>Todo mundo é bem-vindo.</strong> Espaço que acolhe a comunidade LGBTQ+.</li>
+          <li data-reveal><strong>Acessível.</strong> Entrada, banheiro e estacionamento para cadeira de rodas.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark" id="avaliacoes" aria-labelledby="av-t">
+    <div class="wrap reviews-grid">
+      <div class="score">
+        <h2 class="sr-only" id="av-t">Avaliações</h2>
+        <p class="score-num">5,0</p>
+        <p class="score-stars" aria-hidden="true">★★★★★</p>
+        <p class="score-label">Nota média em <strong>180 avaliações</strong> no Google</p>
+      </div>
+      <div class="carousel" data-carousel aria-roledescription="carrossel" aria-label="Depoimentos de clientes">
+        <div class="carousel-track" aria-live="polite">
+          <blockquote class="quote is-active" aria-roledescription="slide">
+            <p>“Eu estava com medo de cortar mais curto, mas a Bia ouviu direitinho o que eu queria e fez exatamente do jeito que eu imaginei.”</p>
+            <footer>Mariana R. <span>· Google</span></footer>
+          </blockquote>
+          <blockquote class="quote" aria-roledescription="slide">
+            <p>“Faço minha cor com a Carla há anos. A morena iluminada ficou incrível e o cabelo continua saudável.”</p>
+            <footer>Juliana P. <span>· Google</span></footer>
+          </blockquote>
+          <blockquote class="quote" aria-roledescription="slide">
+            <p>“Tenho cabelo cacheado e sempre saía frustrada de salão. Aqui souberam cuidar do meu cabelo do jeito certo.”</p>
+            <footer>Renata A. <span>· Google</span></footer>
+          </blockquote>
+          <blockquote class="quote" aria-roledescription="slide">
+            <p>“Pontual, detalhista e o ambiente é tranquilo. Virei cliente fiel.”</p>
+            <footer>Camila S. <span>· Google</span></footer>
+          </blockquote>
+        </div>
+        <div class="carousel-controls">
+          <button class="icon-btn" type="button" data-prev aria-label="Depoimento anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <span class="carousel-count" data-count-label>1 / 4</span>
+          <button class="icon-btn" type="button" data-next aria-label="Próximo depoimento"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+          <button class="icon-btn" type="button" data-pause aria-label="Pausar rotação" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg></button>
+        </div>
+        <p class="reviews-note">Depoimentos ilustrativos. No site real entram as avaliações do Google do seu salão.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="onde" aria-labelledby="onde-t">
+    <div class="wrap where-grid">
+      <div class="map" data-reveal aria-hidden="true">
+        <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="340" fill="#EAE3E6"/>
+          <path d="M-10 250 C 120 230, 220 280, 410 230" stroke="#C9D8CF" stroke-width="26" fill="none"/>
+          <g stroke="#FFFFFF" stroke-linecap="round" fill="none">
+            <path d="M-10 160 L 410 120" stroke-width="14"/>
+            <path d="M210 -10 L 230 350" stroke-width="14"/>
+            <path d="M-10 60 L 410 40" stroke-width="7"/>
+            <path d="M80 -10 L 100 350" stroke-width="7"/>
+            <path d="M330 -10 L 345 350" stroke-width="7"/>
+            <path d="M-10 300 L 410 290" stroke-width="7"/>
+          </g>
+          <g fill="#DDD2D7">
+            <rect x="110" y="70" width="80" height="60" rx="3"/><rect x="250" y="55" width="65" height="50" rx="3"/>
+            <rect x="110" y="175" width="85" height="45" rx="3"/><rect x="245" y="170" width="75" height="70" rx="3"/>
+            <rect x="15" y="80" width="55" height="60" rx="3"/><rect x="355" y="140" width="45" height="80" rx="3"/>
+          </g>
+        </svg>
+        <span class="pulse"></span>
+        <div class="map-pin"><span class="map-pin-label">Studio Aurora</span><span class="map-pin-dot"></span></div>
+      </div>
+      <div>
+        <h2 class="h2" id="onde-t" data-reveal>Onde estamos</h2>
+        <address class="address" data-reveal>
+          Av. das Acácias, 120, Sala 204<br>
+          Centro, Cidade Exemplo<br>
+          Telefone: (00) 90000-0000
+        </address>
+        <div class="where-actions" data-reveal>
+          <button class="btn" type="button" data-route>Traçar rota</button>
+          <button class="btn btn-ghost" type="button" data-book>Falar no WhatsApp</button>
+        </div>
+        <p class="open-now" data-route-note hidden>No site real, este botão abre o Google Maps com a rota até o salão.</p>
+        <h3 class="h3">Horário</h3>
+        <table class="hours" data-hours>
+          <tbody>
+            <tr data-day="1"><th scope="row">Segunda</th><td>09:00–17:00</td></tr>
+            <tr data-day="2"><th scope="row">Terça</th><td>09:00–17:00</td></tr>
+            <tr data-day="3"><th scope="row">Quarta</th><td>09:00–20:00</td></tr>
+            <tr data-day="4"><th scope="row">Quinta</th><td>09:00–20:00</td></tr>
+            <tr data-day="5"><th scope="row">Sexta</th><td>09:00–20:00</td></tr>
+            <tr data-day="6"><th scope="row">Sábado</th><td>09:00–20:00</td></tr>
+            <tr data-day="0"><th scope="row">Domingo</th><td>09:00–14:00</td></tr>
+          </tbody>
+        </table>
+        <p class="open-now" data-open-now></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-final" aria-labelledby="cta-t">
+    <div class="wrap cta-inner">
+      <h2 class="h2" id="cta-t">Seu próximo horário está a uma mensagem.</h2>
+      <button class="btn btn-light" type="button" data-book>Agendar pelo WhatsApp</button>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-row">
+    <span class="brand-mark">Aurora</span>
+    <p>Studio Aurora · Hair &amp; Make · Av. das Acácias, 120, Centro, Cidade Exemplo</p>
+    <p>Modelo de demonstração. Salão, endereço, telefone e depoimentos são fictícios.</p>
+  </div>
+</footer>
+
+<button class="wa-float" type="button" data-book aria-label="Agendar pelo WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.1.1.7-.2 1.3Z"/></svg>
+</button>
+
+<div class="sim" data-sim role="dialog" aria-modal="true" aria-labelledby="sim-t" hidden>
+  <div class="sim-card">
+    <div class="sim-top">
+      <span class="sim-avatar" aria-hidden="true">A</span>
+      <div><strong id="sim-t">Studio Aurora</strong><span>online</span></div>
+      <button class="sim-close" type="button" data-sim-close aria-label="Fechar">×</button>
+    </div>
+    <div class="sim-chat" data-chat></div>
+    <div class="sim-input">
+      <p data-draft>Olá! Vi o site e quero agendar um horário.</p>
+      <button class="sim-send" type="button" data-send aria-label="Enviar mensagem">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20.5 21 12 3 3.5l.01 6.6L15 12 3.01 13.9z"/></svg>
+      </button>
+    </div>
+    <p class="sim-note">Simulação. No site real, este toque abre o WhatsApp do salão com a mensagem já escrita.</p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(() => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGsap = typeof window.gsap !== 'undefined';
+
+  const header = document.querySelector('[data-header]');
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Abertura: o título sobe e o fio se desenha
+  if (hasGsap && !reduceMotion) {
+    const path = document.querySelector('.strand path');
+    const len = path.getTotalLength();
+    gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
+    gsap.timeline({ defaults: { ease: 'power3.out' } })
+      .from('.hero-title .line > span', { yPercent: 110, duration: 1, stagger: 0.12 })
+      .to(path, { strokeDashoffset: 0, duration: 1.6, ease: 'power2.inOut' }, '-=0.6')
+      .from('.hero-sub, .hero-actions', { y: 14, duration: 0.7, stagger: 0.1 }, '-=1.1')
+      .from('.hero-media .ph', { y: 40, duration: 1.1, stagger: 0.15 }, 0.2);
+
+    if (window.ScrollTrigger) {
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.to('.hero-media .ph-small', { yPercent: -12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+      // Só desloca (nunca esconde) o que ainda está abaixo da dobra
+      const below = [...document.querySelectorAll('[data-reveal]')].filter(el => el.getBoundingClientRect().top > window.innerHeight);
+      gsap.set(below, { y: 28 });
+      ScrollTrigger.batch(below, { start: 'top 92%', once: true, onEnter: els => gsap.to(els, { y: 0, duration: 0.9, stagger: 0.08, ease: 'power3.out' }) });
+    }
+  }
+
+  // Antes e depois
+  const compare = document.querySelector('[data-compare]');
+  const range = compare.querySelector('input');
+  range.addEventListener('input', () => compare.style.setProperty('--pos', range.value + '%'));
+
+  // Carrossel
+  const carousel = document.querySelector('[data-carousel]');
+  const slides = [...carousel.querySelectorAll('.quote')];
+  const label = carousel.querySelector('[data-count-label]');
+  const pauseBtn = carousel.querySelector('[data-pause]');
+  let index = 0, timer = null, userPaused = reduceMotion;
+  const show = i => {
+    index = (i + slides.length) % slides.length;
+    slides.forEach((s, n) => { s.classList.toggle('is-active', n === index); s.setAttribute('aria-label', `${n + 1} de ${slides.length}`); });
+    label.textContent = `${index + 1} / ${slides.length}`;
+  };
+  const stop = () => { clearInterval(timer); timer = null; };
+  const start = () => { if (!userPaused && !timer) timer = setInterval(() => show(index + 1), 6000); };
+  carousel.querySelector('[data-prev]').addEventListener('click', () => show(index - 1));
+  carousel.querySelector('[data-next]').addEventListener('click', () => show(index + 1));
+  pauseBtn.addEventListener('click', () => {
+    userPaused = !userPaused;
+    pauseBtn.setAttribute('aria-pressed', String(userPaused));
+    pauseBtn.setAttribute('aria-label', userPaused ? 'Retomar rotação' : 'Pausar rotação');
+    userPaused ? stop() : start();
+  });
+  carousel.addEventListener('mouseenter', stop);
+  carousel.addEventListener('mouseleave', start);
+  carousel.addEventListener('focusin', stop);
+  carousel.addEventListener('focusout', start);
+  show(0); start();
+
+  // Horário de hoje e "aberto agora"
+  const hours = { 0: [9, 14], 1: [9, 17], 2: [9, 17], 3: [9, 20], 4: [9, 20], 5: [9, 20], 6: [9, 20] };
+  const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }));
+  const day = now.getDay();
+  document.querySelector(`[data-hours] tr[data-day="${day}"]`)?.classList.add('is-today');
+  const h = now.getHours() + now.getMinutes() / 60;
+  const [o, c] = hours[day];
+  document.querySelector('[data-open-now]').innerHTML = h >= o && h < c
+    ? `<strong>Aberto agora</strong>, fecha às ${c}:00`
+    : h < o ? `Fechado agora. Abre hoje às 0${o}:00` : `Fechado agora. Abre amanhã às 0${hours[(day + 1) % 7][0]}:00`;
+
+  // Rota (simulada)
+  document.querySelector('[data-route]').addEventListener('click', () => {
+    document.querySelector('[data-route-note]').hidden = false;
+  });
+
+  // Simulação do WhatsApp
+  const sim = document.querySelector('[data-sim]');
+  const chat = sim.querySelector('[data-chat]');
+  const draft = sim.querySelector('[data-draft]');
+  const sendBtn = sim.querySelector('[data-send]');
+  const draftText = 'Olá! Vi o site e quero agendar um horário.';
+  let lastTrigger = null, timers = [];
+  const time = () => new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  const bubble = (cls, text) => {
+    const b = document.createElement('div');
+    b.className = 'bubble ' + cls;
+    b.textContent = text;
+    const t = document.createElement('time'); t.textContent = time(); b.appendChild(t);
+    chat.appendChild(b);
+    if (hasGsap && !reduceMotion) gsap.from(b, { y: 10, scale: .96, duration: .35, ease: 'back.out(1.6)' });
+  };
+  const openSim = e => {
+    lastTrigger = e.currentTarget;
+    timers.forEach(clearTimeout); timers = [];
+    chat.innerHTML = ''; draft.textContent = draftText; sendBtn.disabled = false;
+    sim.hidden = false;
+    sendBtn.focus();
+  };
+  const closeSim = () => { timers.forEach(clearTimeout); sim.hidden = true; lastTrigger?.focus(); };
+  document.querySelectorAll('[data-book]').forEach(b => b.addEventListener('click', openSim));
+  sim.querySelector('[data-sim-close]').addEventListener('click', closeSim);
+  sim.addEventListener('click', e => { if (e.target === sim) closeSim(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !sim.hidden) closeSim(); });
+  sendBtn.addEventListener('click', () => {
+    if (!draft.textContent) return;
+    bubble('me', draft.textContent);
+    draft.textContent = ''; sendBtn.disabled = true;
+    timers.push(setTimeout(() => {
+      const typing = document.createElement('div');
+      typing.className = 'typing'; typing.innerHTML = '<i></i><i></i><i></i>';
+      chat.appendChild(typing);
+      timers.push(setTimeout(() => {
+        typing.remove();
+        bubble('them', 'Oi! Que bom te ver por aqui 💕 Qual serviço você quer fazer e qual dia fica melhor pra você?');
+      }, 1600));
+    }, 500));
+  });
+})();
+</script>
