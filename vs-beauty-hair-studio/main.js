@@ -56,7 +56,10 @@
 
     const show = (i) => {
       index = (i + slides.length) % slides.length;
-      slides.forEach((s, n) => s.classList.toggle('is-active', n === index));
+      slides.forEach((s, n) => {
+        s.classList.toggle('is-active', n === index);
+        s.setAttribute('aria-label', `${n + 1} de ${slides.length}`);
+      });
       label.textContent = `${index + 1} / ${slides.length}`;
     };
     const stop = () => { clearInterval(timer); timer = null; };

@@ -9,7 +9,7 @@
 | Nota | **5,0 ★** com **202 avaliações** |
 | Endereço | Av. Pau Brasil, 06, Sala 301 (3º andar), Águas Claras, Brasília/DF, 71929-540 |
 | Coordenadas | -15.839595, -48.0274501 |
-| WhatsApp | https://wa.me/message/HHQNMkODQk4FUB1 |
+| WhatsApp | (61) 99959-0059 → https://wa.me/5561999590059 |
 | Place ID | ChIJ0fMkA0wzWpMRiVcfAucRnAA |
 | Avaliações | https://search.google.com/local/reviews?placeid=ChIJ0fMkA0wzWpMRiVcfAucRnAA |
 | Selos | Empresa de empreendedoras · Acolhe a comunidade LGBTQ+ |
@@ -23,10 +23,18 @@
 | Quarta a sábado | 09:00–20:00 |
 | Domingo | 09:00–14:00 |
 
+### Equipe e serviços (citados nas avaliações)
+- **Viviane (Vivi):** cortes, mega hair; descrita como pontual e detalhista.
+- **Josy:** coloração, morena iluminada; clientes há mais de 7 anos.
+- Serviços citados: corte, mega hair, morena iluminada, hidratação, escova, cabelo cacheado.
+
+### Avaliações reais usadas no carrossel
+Julia Gadelha, Lorena Carollyne, Paulo Gean Cardoso da Silva, Rafaela Almeida, Amanda Lustosa,
+Izabela Macedo, Carolina Oliveira (trechos resumidos, sem emojis).
+
 ### Ainda falta (preencher antes da prévia final)
-- [ ] Textos de 4 a 6 avaliações reais do Google (nome + trecho). O Maps não libera o texto sem navegador logado.
 - [ ] Instagram oficial (não encontrado na busca).
-- [ ] Lista de serviços confirmada e nome da(s) profissional(is).
+- [ ] Preços dos serviços.
 - [ ] Logo/fotos reais do salão, se houver. Senão, usar as imagens geradas (IMG-01 a IMG-08).
 
 ## Direção de design
